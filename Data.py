@@ -43,11 +43,11 @@ class Data(Resource):
             cursor = self.sqliteConnection.cursor()
             cursor.execute(query, (event_id,))
             self.sqliteConnection.commit()
-
-            result = result_data, 200
         
         # Handle errors
         except sqlite3.Error as error:
             print(f"Error occurred: {error}", 500)
             return f"Error occurred: {error}", 500
-        
+        except Exception as error:
+            print(f"Error occurred: {error}", 404)
+            return f"Error occurred: {error}", 404
