@@ -6,7 +6,8 @@ import Data
 app = Flask(__name__)
 api = Api(app)
 
-api.add_resource(Data, '/data')
+data_instance = Data()
+api.add_resource(data_instance, '/data')
 
 if __name__ == '__main__':
     app.run()  # run our Flask app

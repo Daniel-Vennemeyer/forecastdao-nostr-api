@@ -25,7 +25,7 @@ class Data(Resource):
             # Close the cursor
             cursor.close()
 
-            return result_data, 200
+            return {"data": result_data}, 200
         
         # Handle errors
         except sqlite3.Error as error:
