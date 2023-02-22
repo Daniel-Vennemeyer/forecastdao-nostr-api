@@ -2,18 +2,12 @@ import sqlite3
 from flask_restful import Resource
 
 class Data(Resource):
-    def __init__(self):
-        # Connect to DB and create a cursor
-        self.sqliteConnection = sqlite3.connect('/opt/nostr-data/nostr.db')
-        print('DB Init')
-
-    def __del__(self):
-        if self.sqliteConnection:
-            self.sqliteConnection.close()
-            print('SQLite Connection closed')
 
     def get(self):
-        try:        
+        try:
+            self.sqliteConnection = sqlite3.connect('/opt/nostr-data/nostr.db')
+            print('DB Init')
+                    
             # Write a query and execute it with cursor
             cursor = self.sqliteConnection.cursor()
             query = '.dump event;'
@@ -32,6 +26,11 @@ class Data(Resource):
             print(f"Error occurred: {error}", 500)
             return f"Error occurred: {error}", 500
         
+        finally:
+            if self.sqliteConnection:
+                self.sqliteConnection.close()
+                print('SQLite Connection closed')
+        
 
     def post(self):
         print("ERROR: Post not yet implemented")
@@ -39,6 +38,9 @@ class Data(Resource):
     
     def delete(self, event_id):
         try:
+            self.sqliteConnection = sqlite3.connect('/opt/nostr-data/nostr.db')
+            print('DB Init')
+
             query = 'DELETE FROM tasks WHERE id=?'
             cursor = self.sqliteConnection.cursor()
             cursor.execute(query, (event_id,))
@@ -51,3 +53,8 @@ class Data(Resource):
         except Exception as error:
             print(f"Error occurred: {error}", 404)
             return f"Error occurred: {error}", 404
+
+        finally:
+            if self.sqliteConnection:
+                self.sqliteConnection.close()
+                print('SQLite Connection closed')
