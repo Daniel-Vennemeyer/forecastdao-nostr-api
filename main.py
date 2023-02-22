@@ -2,12 +2,10 @@ from flask import Flask
 from flask_restful import Resource, Api
 import Data
 
-
 app = Flask(__name__)
 api = Api(app)
 
-data_instance = Data()
-api.add_resource(data_instance, '/data')
+api.add_resource(Data.Data, '/data')
 
 if __name__ == '__main__':
     app.run()  # run our Flask app
