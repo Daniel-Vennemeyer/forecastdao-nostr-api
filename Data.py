@@ -10,7 +10,7 @@ class Data(Resource):
                     
             # Write a query and execute it with cursor
             cursor = self.sqliteConnection.cursor()
-            query = '.dump event;'
+            query = 'SELECT * FROM event'
             cursor.execute(query)
         
             # Fetch result
