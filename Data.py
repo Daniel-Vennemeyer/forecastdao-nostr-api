@@ -20,11 +20,11 @@ class Data(Resource):
             # Close the cursor
             cursor.close()
 
-            if isinstance(result_data, bytes):
-                return result_data.decode('utf-8'), 200
-            return json.JSONEncoder.default(self, result_data), 200
+            # if isinstance(result_data, bytes):
+            #     return result_data.decode('utf-8'), 200
+            # return json.JSONEncoder.default(self, result_data), 200
 
-            # return result_data, 200
+            return result_data, 200
         
         # Handle errors
         except sqlite3.Error as error:
