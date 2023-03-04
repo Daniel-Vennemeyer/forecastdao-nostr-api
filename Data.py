@@ -11,7 +11,7 @@ class Data(Resource):
                     
             # Write a query and execute it with cursor
             cursor = self.sqliteConnection.cursor()
-            query = "SELECT content FROM event;"
+            query = "SELECT content FROM event WHERE content LIKE '%#inflationMonitor%';"
             cursor.execute(query)
         
             # Fetch result
