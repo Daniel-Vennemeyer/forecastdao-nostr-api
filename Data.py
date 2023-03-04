@@ -19,7 +19,12 @@ class Data(Resource):
             # Close the cursor
             cursor.close()
 
-            return result_data, 200
+            if isinstance(result_data, bytes):
+                return result_data.decode('utf-8'), 200
+            # handle other non-serializable objects here
+            return super().default(result_data), 200
+
+            # return result_data, 200
         
         # Handle errors
         except sqlite3.Error as error:
