@@ -45,7 +45,31 @@ class Data(Resource):
         print("ERROR: Post not yet implemented")
         return "ERROR: Post not yet implemented", 500
     
-    def delete(self, event_id):
+    def delete(self):
+        try:
+            self.sqliteConnection = sqlite3.connect('/opt/nostr-data/nostr.db')
+            print('DB Init')
+
+            query = "DELETE content FROM event WHERE content NOT LIKE '%#inflationMonitor%';"
+            cursor = self.sqliteConnection.cursor()
+            cursor.execute(query)
+            self.sqliteConnection.commit()
+        
+        # Handle errors
+        except sqlite3.Error as error:
+            print(f"Error occurred: {error}", 500)
+            return f"Error occurred: {error}", 500
+        except Exception as error:
+            print(f"Error occurred: {error}", 404)
+            return f"Error occurred: {error}", 404
+
+        finally:
+            if self.sqliteConnection:
+                self.sqliteConnection.close()
+                print('SQLite Connection closed')
+                
+                
+    def delete_by_id(self, event_id):
         try:
             self.sqliteConnection = sqlite3.connect('/opt/nostr-data/nostr.db')
             print('DB Init')
