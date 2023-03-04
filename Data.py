@@ -10,7 +10,7 @@ class Data(Resource):
                     
             # Write a query and execute it with cursor
             cursor = self.sqliteConnection.cursor()
-            query = 'SELECT * FROM event'
+            query = "SELECT * FROM event WHERE created_at >= strftime('%s', 'now', '-1 day');"
             cursor.execute(query)
         
             # Fetch result
