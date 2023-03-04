@@ -1,5 +1,6 @@
 import sqlite3
 from flask_restful import Resource
+import json
 
 class Data(Resource):
 
@@ -21,8 +22,7 @@ class Data(Resource):
 
             if isinstance(result_data, bytes):
                 return result_data.decode('utf-8'), 200
-            # handle other non-serializable objects here
-            return super().default(result_data), 200
+            return json.JSONEncoder.default(self, result_data), 200
 
             # return result_data, 200
         
@@ -30,6 +30,10 @@ class Data(Resource):
         except sqlite3.Error as error:
             print(f"Error occurred: {error}", 500)
             return f"Error occurred: {error}", 500
+        
+        except Exception as error:
+            print(f"Error occurred: {error}", 501)
+            return f"Error occurred: {error}", 501
         
         finally:
             if self.sqliteConnection:
