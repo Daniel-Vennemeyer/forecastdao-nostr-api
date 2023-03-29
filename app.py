@@ -24,6 +24,7 @@ def clean(): #Get just the values for the data from the nostr relay
         cleaned = []
         for event in data:
             indicator, value, rationale = event[0].split("#")[2:] #extracts and cleans nostr data
+            return indicator, value, rationale
 
             indicator = indicator.replace("\\n", "").replace("'", "").replace('"', "").replace("indicator ", "")
             value = float(value.replace("\\n", "").replace("'", "").replace('"', "").replace(",", "").replace("value ", ""))
