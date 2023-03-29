@@ -1,16 +1,16 @@
 type User @createModel(accountRelation: SINGLE, description: "User Profile Object") {
-    id: DID! #Use the nostr public key?
+    id: DID! #Use the nostr public key
     date_joined: DateTime! #when user made their first post
     role: String! # What kind of user they are, whether they are admin, company, user
-    forecasts: [Forecast!]
+    forecasts: [Forecast!] #array of all forecasts the user has posted
 }
 
-type Forecast @createModel(accountRelation: LIST, description: "User's prediction, rationale, and post metadata") {
-    writer: User!
-    id: ID!
+type Forecast @createModel(accountRelation: LIST, description: "User's prediction for an indicator") {
+    author: User!
+    id: ID! #metadata for accessing instances of this type. 
     date_posted: DateTime!
-    indicator: Indicator! #What the user is forecasting
-    prediction_value: float! 
+    indicator: Indicator! #What the user is forecasting. Type defined below
+    prediction_value: float! #What value the user predicts the indicator will be
     rationale: String! @string(minLength: 10, maxLength: 3000) #TODO: Determine less arbitrary character count for description
 }
 
