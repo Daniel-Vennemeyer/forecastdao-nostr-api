@@ -28,7 +28,7 @@ def clean(): #Get just the values for the data from the nostr relay
             indicator = indicator.replace("\\n", "").replace("'", "").replace('"', "").replace("indicator ", "")
             value = float(value.replace("\\n", "").replace("'", "").replace('"', "").replace(",", "").replace("value ", ""))
             rationale = rationale.replace("\\n", "").replace("rationale ", "") # data is clean
-            cleaned.append((indicator, value, rationale))
+            cleaned.append({"indicator": indicator, "value": value, "rationale": rationale})
         return cleaned
     except Exception as e:
          print(f"ERROR in forecastdao-nostr-api.clean: {e}")
