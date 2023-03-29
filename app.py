@@ -32,6 +32,7 @@ def clean(): #Get just the values for the data from the nostr relay
         return cleaned
     except Exception as e:
          print(f"ERROR in forecastdao-nostr-api.clean: {e}")
+         return f"ERROR in forecastdao-nostr-api.clean: {e}" #For testing ONLY
 
 @app.route('/send')
 def send(): #sends the data from the nostr relay's default sqlite database to our ComposeDB with only the information and formatting we want
