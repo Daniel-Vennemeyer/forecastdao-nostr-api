@@ -11,7 +11,7 @@ class Data(Resource):
                     
             # Write a query and execute it with cursor
             cursor = self.sqliteConnection.cursor()
-            query = "SELECT content FROM event WHERE content LIKE '%#inflationMonitor%';"
+            query = "SELECT content FROM event WHERE content LIKE '%#ForecastDao%';"
             cursor.execute(query)
         
             # Fetch result
@@ -50,7 +50,7 @@ class Data(Resource):
             self.sqliteConnection = sqlite3.connect('/opt/nostr-data/nostr.db')
             print('DB Init')
 
-            query = "DELETE content FROM event WHERE content NOT LIKE '%#inflationMonitor%';"
+            query = "DELETE content FROM event WHERE content NOT LIKE '%#ForecastDao%';"
             cursor = self.sqliteConnection.cursor()
             cursor.execute(query)
             self.sqliteConnection.commit()

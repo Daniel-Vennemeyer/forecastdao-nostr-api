@@ -1,0 +1,29 @@
+type User @createModel(accountRelation: SINGLE, description: "User Profile Object") {
+    id: DID! #Use the nostr public key?
+    date_joined: DateTime! #when user made their first post
+    role: String! # What kind of user they are, whether they are admin, company, user
+    forecasts: [Forecast!]
+}
+
+type Forecast @createModel(accountRelation: LIST, description: "User's prediction, rationale, and post metadata") {
+    writer: User!
+    id: ID!
+    date_posted: DateTime!
+    indicator: Indicator! #What the user is forecasting
+    prediction_value: float! 
+    rationale: String! @string(minLength: 10, maxLength: 3000) #TODO: Determine less arbitrary character count for description
+}
+
+type Outcome @createModel(accountRelation: LIST, description: "The actual value of the forecasted topic") { 
+    source: String! #May become a new type in future
+    id: ID!
+    date_posted: DateTime!
+    indicator: Indicator!
+    actual_value: float!
+}
+
+type Indicator @createModel(accountRelation: LIST, description: "What the user is forecasting") { #Valid indicators are selected internally
+    id: ID!
+    indicator: String! @string(maxLength: 100) #Which indicator the writer is predicting
+    description: String! #Description of what indicator is, including desired prediction format
+}
