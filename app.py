@@ -17,7 +17,7 @@ def hello_world():
 @app.route('/clean')
 def clean(): #Get just the values for the data from the nostr relay
     try:
-        data = Data.Data.get()
+        data = Data().Data.get()
         # data = requests.get(url="http://3.144.27.94:5000/data").text
         data = data.replace("\n", "")
         data = json.loads(data)
