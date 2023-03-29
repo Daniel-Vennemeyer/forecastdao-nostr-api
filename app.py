@@ -17,7 +17,7 @@ def hello_world():
 @app.route('/clean')
 def clean(): #Get just the values for the data from the nostr relay
     try:
-        data = Data.Data().get()
+        # data = Data.Data().get()
         data = requests.get(url="http://3.144.27.94:5000/data").text
         data = data.replace("\n", "")
         data = json.loads(data)
@@ -27,7 +27,7 @@ def clean(): #Get just the values for the data from the nostr relay
 
             indicator = indicator.replace("\\n", "").replace("'", "").replace('"', "").replace("indicator ", "")
             value = float(value.replace("\\n", "").replace("'", "").replace('"', "").replace(",", "").replace("value ", ""))
-            rationale = rationale.replace("\\n", "").replace("rationale ", "") # data is clean
+            rationale = rationale.replace("\\n", "").replace("rationale ", "").replace(rationale[rationale.index('\",\"sig'):], "") # data is clean
             cleaned.append({"indicator": indicator, "value": value, "rationale": rationale})
         return cleaned
     except Exception as e:
@@ -73,5 +73,6 @@ def send(): #sends the data from the nostr relay's default sqlite database to ou
 
 
 if __name__ == '__main__':
+    # clean()
     # send()
     app.run(host='127.0.0.1', port=5000)
