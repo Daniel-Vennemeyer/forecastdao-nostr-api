@@ -18,9 +18,9 @@ def hello_world():
 def clean(): #Get just the values for the data from the nostr relay
     try:
         data = Data.Data().get()
-        # data = requests.get(url="http://3.144.27.94:5000/data").text
-        # data = data.replace("\n", "")
-        # data = json.loads(data)
+        data = requests.get(url="http://3.144.27.94:5000/data").text
+        data = data.replace("\n", "")
+        data = json.loads(data)
         cleaned = []
         for event in data:
             indicator, value, rationale = event[0].split("#")[2:] #extracts and cleans nostr data
@@ -37,7 +37,7 @@ def clean(): #Get just the values for the data from the nostr relay
 @app.route('/send')
 def send(): #sends the data from the nostr relay's default sqlite database to our ComposeDB with only the information and formatting we want
     try:
-        data = cleaner()
+        data = clean()
         for event in data:
             indicator, value, rationale = event
             body = """
