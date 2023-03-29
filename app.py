@@ -20,7 +20,7 @@ def clean(): #Get just the values for the data from the nostr relay
         data = Data.Data().get()
         # data = requests.get(url="http://3.144.27.94:5000/data").text
         # data = data.replace("\n", "")
-        data = json.loads(data)
+        # data = json.loads(data)
         cleaned = []
         for event in data:
             indicator, value, rationale = event[0].split("#")[2:] #extracts and cleans nostr data
