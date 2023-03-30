@@ -9,7 +9,7 @@ type Forecast @createModel(accountRelation: LIST, description: "User's predictio
     author: User!
     id: ID! #metadata for accessing instances of this type. 
     date_posted: DateTime!
-    indicator: Indicator! #What the user is forecasting. Type defined below
+    indicator: String! #TODO: Must make this the indicator type defined below #What the user is forecasting
     prediction_value: float! #What value the user predicts the indicator will be
     rationale: String! @string(minLength: 10, maxLength: 3000) #TODO: Determine less arbitrary character count for description
 }

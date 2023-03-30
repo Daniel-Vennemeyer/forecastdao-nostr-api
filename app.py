@@ -3,6 +3,7 @@ from flask_restful import Resource, Api
 import Data
 import json
 import requests
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -23,12 +24,13 @@ def clean(): #Get just the values for the data from the nostr relay
         data = json.loads(data)
         cleaned = []
         for event in data:
+            id = json.loads(event[0])["pubkey"]
             indicator, value, rationale = event[0].split("#")[2:] #extracts and cleans nostr data
 
             indicator = indicator.replace("\\n", "").replace("'", "").replace('"', "").replace("indicator ", "")
             value = float(value.replace("\\n", "").replace("'", "").replace('"', "").replace(",", "").replace("value ", ""))
             rationale = rationale.replace("\\n", "").replace("rationale ", "").replace(rationale[rationale.index(' \",\"sig'):], "") # data is clean
-            cleaned.append({"indicator": indicator, "value": value, "rationale": rationale})
+            cleaned.append({"id": id, "indicator": indicator, "value": value, "rationale": rationale})
         return cleaned
     except Exception as e:
          print(f"ERROR in forecastdao-nostr-api.clean: {e}")
@@ -44,6 +46,8 @@ def send(): #sends the data from the nostr relay's default sqlite database to ou
             mutation CreateForecast($i:CreateForecastInput!){
                 createForecast(input: $i){
                     document{
+                        id
+                        date_posted
                         indicator
                         value
                         rationale
@@ -57,6 +61,8 @@ def send(): #sends the data from the nostr relay's default sqlite database to ou
                 {
                 "i":
                         {"content": {
+                            "id": id,
+                            "date_posted": datetime.now(),
                             "indicator": indicator,
                             "value": value,
                             "rationale": rationale
@@ -73,6 +79,6 @@ def send(): #sends the data from the nostr relay's default sqlite database to ou
 
 
 if __name__ == '__main__':
-    # clean()
+    clean()
     # send()
     app.run(host='127.0.0.1', port=5000)
